@@ -1,6 +1,7 @@
 <?PHP
 class sommet
 {
+	public $id;
 	public $voyage;
 	public $voisins = Array();
 	public $etat = "";

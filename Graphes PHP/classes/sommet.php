@@ -1,40 +1,41 @@
 <?PHP
-class sommet
+class Sommet
 {
 	public $id;
 	public $voyage;
 	public $voisins = Array();
-	public $etat = "";
+	public $parcouru = false;	
 	
 	function __construct($voyage_init)
 	{
 		$this->voyage = $voyage_init;
+		$this->parcouru = false;
 	}
 	
-	function ajouter_voisin($sommet, $tab_terminus)
+	function get_id()
 	{
-		$temps = $tab_terminus[$this->voyage["t_arr"]][$sommet->voyage["t_dep"]];
-		$this->voisins[] = $sommet;
+		return $this->id;
 	}
 	
-	function supprimer_voisin($sommet)
+	function set_id($id)
 	{
-		$cpt = 0;
-		foreach($voisins as $voisin)
-		{
-			if(		$sommet->voyage["ligne"] == $voisin->voyage["ligne"]
-				&& 	$sommet->voyage["sens"] == $voisin->voyage["sens"]
-				&& 	$sommet->voyage["voyage"] == $voisin->voyage["voyage"])
-			{
-				array_splice($voisins, $cpt, 1); // efface un élément à partir de cpt
-			}
-		$cpt ++;
-		}
+		$this->id = $id;
 	}
 	
 	function get_liste_voisins()
 	{
 		return $this->voisins;
+	}
+	
+	function ajouter_voisin($sommet)
+	{
+		//$temps = $tab_terminus[$this->voyage["tarr"]][$sommet->voyage["tdep"]];
+		$this->voisins[] = Array($sommet->get_id(), 12);
+	}
+	
+	function supprimer_voisin($sommet)
+	{
+		array_splice($voisins, $sommet->get_id(), 1); // efface un élément
 	}
 }	
 ?>	

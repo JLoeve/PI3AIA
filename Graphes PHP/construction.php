@@ -4,6 +4,7 @@ include "classes/sommet.php";
 $tab_terminus = Array();
 $tab_horaires = Array();
 $nb_voyages;
+$nb_parcouru = 0;
 
 function lire_terminus($filename)
 $row = 0;
@@ -49,6 +50,24 @@ function lire_horaires($filename)
 	$tab_horaires["l1"]['r']['v1']["sens"] = 'r';
 	$tab_horaires["l1"]['r']['v1']["ligne"] = 1;
 	$tab_horaires["l1"]['r']['v1']["voyage"] = 1;
+	
+	$tab_horaires["l1"]['a']['v2']["tdep"] = "T2";
+	$tab_horaires["l1"]['a']['v2']["tarr"] = "T4";
+	$tab_horaires["l1"]['a']['v2']["hdep"] = 635;
+	$tab_horaires["l1"]['a']['v2']["hdep"] = 649;
+	$tab_horaires["l1"]['a']['v2']["dist"] = 10;
+	$tab_horaires["l1"]['a']['v2']["sens"] = 'a';
+	$tab_horaires["l1"]['a']['v2']["ligne"] = 1;
+	$tab_horaires["l1"]['a']['v2']["voyage"] = 2;
+	
+	$tab_horaires["l1"]['r']['v2']["tdep"] = "T4";
+	$tab_horaires["l1"]['r']['v2']["tarr"] = "T2";
+	$tab_horaires["l1"]['r']['v2']["hdep"] = 621;
+	$tab_horaires["l1"]['r']['v2']["hdep"] = 636;
+	$tab_horaires["l1"]['r']['v2']["dist"] = 10;
+	$tab_horaires["l1"]['r']['v2']["sens"] = 'r';
+	$tab_horaires["l1"]['r']['v2']["ligne"] = 1;
+	$tab_horaires["l1"]['r']['v2']["voyage"] = 2;
 }
 
 function compte_voyages($tab)
@@ -63,8 +82,17 @@ function compte_voyages($tab)
 lire_terminus("terminus.csv");
 lire_horaires("horaires.csv");
 
+compte_voyages($tab_horaires);
+
 $solution == "";
 $bus = Array();
 
+while($nb_parcouru < $nb_voyages)
+{
+	$bus_courant = Array("txt" => Array(), "distance"=>0, "temps"=>0, "voyages"=>Array());
+	if (!end($bus_courant["voyages"])
+	
+	
+}
 
 ?>

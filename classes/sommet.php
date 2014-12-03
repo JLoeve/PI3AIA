@@ -69,7 +69,8 @@ class Sommet{
 	function ajouter_voisin($sommet){
 
 		// Calcul du temps entre l'arrivée et le départ
-		$this->voisins[] = Array($sommet->get_id(), 12);
+		$temps = ($sommet->get_voyage()->get_hdep()) - ($this->get_voyage()->get_harr());
+		$this->voisins[] = Array($sommet->get_id(), $temps);
 	}
 	
 	function supprimer_voisin($sommet){

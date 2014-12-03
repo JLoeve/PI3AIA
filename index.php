@@ -42,11 +42,16 @@ foreach($tab_horaires as $ligne){
 
 		foreach ($sens as $voyage){
 
+			$t_hdep = explode(":", $voyage["hdep"]);
+			$t_harr = explode(":", $voyage["harr"]);
+			$hdep = $t_hdep[0] * 60 + $t_hdep[1];
+			$harr = $t_harr[0] * 60 + $t_harr[1];
+				
 			$v = new Voyage(
 				$voyage["tdep"],
 				$voyage["tarr"],
-				$voyage["hdep"],
-				$voyage["harr"],
+				$hdep,
+				$harr,
 				$voyage["sens"],
 				$voyage["ligne"],
 				$voyage["voyage"],
@@ -59,7 +64,7 @@ foreach($tab_horaires as $ligne){
 	}
 }
 
-$graphe = new Graphe($sommets);
+$graphe = new Graphe($sommets, $tab_terminus);
 $graphe->print_sommet(1);
 $graphe->print_nb_sommet();
 
@@ -71,7 +76,7 @@ foreach($graphe->get_sommets as $sommet)
 	foreach ($graphe->get_sommets as $voisin)
 	{
 		if($sommet->get_id() != $voisin->get_id())
-			$graphe->ajouter_voisin($sommet, $voisin);
+			$graphe->ajouter_arc($sommet, $voisin);
 	}
 }
 	
@@ -79,7 +84,7 @@ foreach($graphe->get_sommets as $sommet)
 $solution == "";
 $bus = Array();
 $nb_parcouru = 0;
-
+/*
 while($nb_parcouru < $graphe->get_nb_sommet())
 {
 	$bus_courant = Array("txt" => "", "distance"=>0, "temps"=>0, "voyages"=>Array());
@@ -90,7 +95,7 @@ while($nb_parcouru < $graphe->get_nb_sommet())
 	}
 	else
 	{
-		/****** Determiner le prochain voyage/sommet ******/
+		// Determiner le prochain voyage/sommet //
 		$dernier_sommet	= end($bus_courant["voyages"]);
 		$liste_voisins = $dernier_sommet->get_voisins();
 		// Choix du voisin parmi la liste d'ID (paramètre IA, pour l'instant on prend le plus prêt)
@@ -107,5 +112,6 @@ while($nb_parcouru < $graphe->get_nb_sommet())
 		$bus_courant["voyages"][] = $sommet_suivant;		
 	}	
 }
-
+*/
+$graphe->print_sommet(0);
 ?>

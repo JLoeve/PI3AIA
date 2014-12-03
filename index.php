@@ -74,21 +74,38 @@ foreach($graphe->get_sommets as $sommet)
 			$graphe->ajouter_voisin($sommet, $voisin);
 	}
 }
-/*
-echo "<pre>";
-print_r($graphe);
-echo "</pre>";		
+	
 
 $solution == "";
 $bus = Array();
+$nb_parcouru = 0;
 
-while($nb_parcouru < $nb_voyages)
+while($nb_parcouru < $graphe->get_nb_sommet())
 {
-	$bus_courant = Array("txt" => Array(), "distance"=>0, "temps"=>0, "voyages"=>Array());
-	if (!end($bus_courant["voyages"])
-	
-	
+	$bus_courant = Array("txt" => "", "distance"=>0, "temps"=>0, "voyages"=>Array());
+	if (!end($bus_courant["voyages"]) // Si aucun voyage pour le moment
+	{		
+		$premier_sommet = $graphe->get_sommet(1)// Trouver le premier voyage/sommet (Loïc la fonction là !), en attendant on prend le premier sommet
+		$bus_courant["voyages"][] = $premier_sommet->get_id();
+	}
+	else
+	{
+		/****** Determiner le prochain voyage/sommet ******/
+		$dernier_sommet	= end($bus_courant["voyages"]);
+		$liste_voisins = $dernier_sommet->get_voisins();
+		// Choix du voisin parmi la liste d'ID (paramètre IA, pour l'instant on prend le plus prêt)
+		$temps_min = 9999999;
+		foreach($liste_voisins as $voisin)
+		{
+			if($voisin[1] < $temps_min)
+			{
+				$id_suivant = $voisin[0];
+				$temps_min = $voisin[1];
+			}
+		}
+		$sommet_suivant = $graphe->get_sommet($id_suivant)
+		$bus_courant["voyages"][] = $sommet_suivant;		
+	}	
 }
-*/
 
 ?>

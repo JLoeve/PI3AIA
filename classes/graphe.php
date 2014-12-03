@@ -19,20 +19,34 @@ class Graphe{
 	}
 
 	/*-----------------------------------------------------------
+	 * GETTERS
+	 *-----------------------------------------------------------*/
+
+	function get_sommet($id){
+
+		return $this->sommets[$id];
+	}
+
+
+	function get_nb_sommet(){
+
+		return count($this->sommets);
+	}
+
+
+	function get_sommets(){
+
+		return $this->sommets;
+	}
+	
+	/*-----------------------------------------------------------
 	 * METHODS
 	 *-----------------------------------------------------------*/
 
 	function ajouter_arc($sommet1, $sommet2){
 
-		// Test si voisin
+		// Test if voisin  possible {
 		$sommet1->ajouter_voisin($sommet2);
-	}
-
-	function print_sommet($id){
-
-		echo "<pre>";
-		var_dump($this->sommets[$id]);
-		echo "</pre>";
 	}
 
 
@@ -41,10 +55,11 @@ class Graphe{
 		echo "Nb sommet = ".count($this->sommets);
 	}
 
+	function print_sommet($id){
 
-	function get_sommets(){
-
-		return $this->sommets;
+		echo "<pre>";
+		var_dump($this->sommets[$id]);
+		echo "</pre>";
 	}
 }
 

@@ -43,7 +43,7 @@ class Sommet{
 
 	function get_parcouru(){
 
-		return $this->get_parcouru;
+		return $this->parcouru;
 	}
 	
 	/*-----------------------------------------------------------
@@ -68,6 +68,7 @@ class Sommet{
 	
 	function ajouter_voisin($sommet){
 
+		// Calcul du temps entre l'arrivée et le départ
 		$this->voisins[] = Array($sommet->get_id(), 12);
 	}
 	

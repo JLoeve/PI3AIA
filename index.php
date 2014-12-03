@@ -65,15 +65,16 @@ $graphe->print_nb_sommet();
 
 // Construction des arcs du graphe grace à la liste d'adjacence de chaque sommet
 
-/*
-foreach($graphe as $sommet)
+
+foreach($graphe->get_sommets as $sommet)
 {	
-	foreach ($graphe as $voisin)
+	foreach ($graphe->get_sommets as $voisin)
 	{
 		if($sommet->get_id() != $voisin->get_id())
-			$sommet->ajouter_voisin($voisin);
+			$graphe->ajouter_voisin($sommet, $voisin);
 	}
 }
+/*
 echo "<pre>";
 print_r($graphe);
 echo "</pre>";		

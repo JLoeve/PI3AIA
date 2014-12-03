@@ -24,6 +24,7 @@ class Graphe{
 
 	function ajouter_arc($sommet1, $sommet2){
 
+		// Test si voisin
 		$sommet1->ajouter_voisin($sommet2);
 	}
 
@@ -38,6 +39,12 @@ class Graphe{
 	function print_nb_sommet(){
 
 		echo "Nb sommet = ".count($this->sommets);
+	}
+
+
+	function get_sommets(){
+
+		return $this->sommets;
 	}
 }
 

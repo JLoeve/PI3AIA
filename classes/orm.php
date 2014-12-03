@@ -211,10 +211,17 @@ class ORM{
 
 		$cpt = 0;
 
-		foreach($this->tab_horaires as $ligne)
-			foreach ($ligne as $sens)
-				foreach ($sens as $voyage)
+		foreach($this->tab_horaires as $iligne => $ligne){
+			
+			foreach ($ligne as $isens => $sens){
+
+				//echo "Ligne $iligne - $isens - nb = ".count($sens)."<br>";
+
+				foreach ($sens as $voyage){
 					$cpt ++;
+				}
+			}
+		}
 
 		echo "Nb voyages = $cpt";
 	}

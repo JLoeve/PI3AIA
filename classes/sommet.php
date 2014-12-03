@@ -43,7 +43,7 @@ class Sommet{
 
 	function get_parcouru(){
 
-		return $this->get_parcouru;
+		return $this->parcouru;
 	}
 	
 	/*-----------------------------------------------------------

@@ -11,14 +11,6 @@ $orm = new ORM("data/terminus.csv", "data/horaires.csv");
 $tab_terminus = $orm->get_tab_terminus();
 $tab_horaires = $orm->get_tab_horaires();
 
-/*$voyage = array (
-    "1"  => array("ligne" => "1", "voyage" => "1" , "hDep" => "480" , "hArr" => "490" , "tDep" => "T1" , "tArr" => "T7" , "sens" => "a", "parcouru" => false),
-    "2"  => array("ligne" => "1", "voyage" => "2" , "hDep" => "485" , "hArr" => "495" , "tDep" => "T2" , "tArr" => "T8" , "sens" => "a", "parcouru" => false),
-    "3"  => array("ligne" => "3", "voyage" => "1" , "hDep" => "490" , "hArr" => "500" , "tDep" => "T3" , "tArr" => "T9" , "sens" => "a", "parcouru" => false),
-    "4"  => array("ligne" => "4", "voyage" => "1" , "hDep" => "496" , "hArr" => "506" , "tDep" => "T4" , "tArr" => "T10" , "sens" => "a", "parcouru" => false),
-    "5"  => array("ligne" => "5", "voyage" => "1" , "hDep" => "520" , "hArr" => "530" , "tDep" => "T5" , "tArr" => "T11" , "sens" => "a", "parcouru" => false),
-    "6"  => array("ligne" => "6", "voyage" => "1" , "hDep" => "520" , "hArr" => "530" , "tDep" => "T6" , "tArr" => "T12" , "sens" => "a", "parcouru" => false)		  
-);*/
 
 $sommets = Array();
 $unique_id = 0;
@@ -51,9 +43,6 @@ foreach($tab_horaires as $ligne){
 	}
 }
 
-
-
-
 	$nbBus = 0;
 	$nbKm  = 0;
 	$nbTps = 0;
@@ -62,8 +51,9 @@ foreach($tab_horaires as $ligne){
 	$voyageActu = $voyDepMin;
 	$sommets[$voyageActu]->set_parcouru(true);
 	print_r($sommets[$voyageActu]);
-	$bus = "Bus n°".($nbBus+1)." : v".$voyageActu;
-	
+	$bus = "bus".($nbBus+1).",l".$sommets[$voyageActu]->get_voyage()->get_ligne().":".
+					$sommets[$voyageActu]->get_voyage()->get_sens().
+					":v".$sommets[$voyageActu]->get_voyage()->get_voyage();
 	echo "<br>";
 	
 	for($i=0; $i < count($sommets) ; $i++){
@@ -71,7 +61,7 @@ foreach($tab_horaires as $ligne){
 			$minTemps = 2000;
 			$solution = false;
 			
-			echo "voyage actu = $voyageActu <br>";
+			//echo "voyage actu = $voyageActu <br>";
 			
 			for($j=0; $j < count($sommets) ; $j++){
 				
@@ -101,27 +91,36 @@ foreach($tab_horaires as $ligne){
 			if($solution == true){
 				// On se deplace vers le voyage le plus proche
 				$voyageActu = $minVoyage;
-				$bus = $bus." - v".$voyageActu;
+				$bus = $bus.",l".$sommets[$voyageActu]->get_voyage()->get_ligne().":".
+							$sommets[$voyageActu]->get_voyage()->get_sens().
+							":v".$sommets[$voyageActu]->get_voyage()->get_voyage();
 				$sommets[$voyageActu]->set_parcouru(true);
 
 			}else{
 				//Nouveau Bus
 				$nbBus++;
 				$voyDepMin = premierVoyage($sommets);
-				if($voyDepMin == 0) break;
+				if($voyDepMin == -1){break;}
 					$voyageActu = $voyDepMin;
-					$bus = $bus."<br>Bus n°".($nbBus+1)." : v".$voyageActu;
+					
+					$bus = $bus."<br>bus".($nbBus+1).
+					",l".$sommets[$voyageActu]->get_voyage()->get_ligne().":".
+					$sommets[$voyageActu]->get_voyage()->get_sens().
+					":v".$sommets[$voyageActu]->get_voyage()->get_voyage();
+					
 					$sommets[$voyageActu]->set_parcouru(true);
+					//echo "voyage actu new bus = $voyageActu<br>";
 			}
-			$i = 0;
+			$i = -1;
 		}
 	}
+	echo "# Loïc Trichaud, Adrien Mathaly, Justine Sabbatier, Julien Loeve<br>";
 	
-	echo"<br><br><b>Nbrede bus : ".$nbBus."</b>";
+	echo $nbBus.",1234,1234";
 	echo "<br>".$bus;
 	
-$cptFalse = 0;
-$cptTrue = 0;
+	$cptFalse = 0;
+	$cptTrue = 0;
 	foreach ($sommets as $i => $s){
 			if($s->get_parcouru() == false){
 				$cptFalse++;
@@ -129,14 +128,18 @@ $cptTrue = 0;
 				$cptTrue++;
 			}
 		}
-		echo "<br> reste ".$cptFalse."   Fait : ".$cptTrue."   ".($cptFalse+$cptTrue);
+		echo "<br><br>Fait : ".$cptTrue;
+		echo "<br>Pas Fait : ".$cptFalse;
+		echo "<br>Total : ".($cptFalse+$cptTrue);
 
+// ===========================================================================================================================	
+// ===========================================================================================================================	
 	// Trouver le premier voyage dispo de la journée ! 
 	// retourne le n° du voyage
 	function premierVoyage($sommets){
 	
 		$heureDepMin = 2000;
-		$voyDepMin = 0;
+		$voyDepMin = -1;
 		foreach ($sommets as $i => $s){
 			if($s->get_parcouru() == false){
 				if($s->get_voyage()->get_hdep() < $heureDepMin){
@@ -150,9 +153,8 @@ $cptTrue = 0;
 
 
 
-
-
-
+// ===========================================================================================================================	
+// ===========================================================================================================================	
 
 function voyageLePlusProche($heureArrivee, $heureDepart, $term1, $term2){
 
@@ -161,10 +163,16 @@ function voyageLePlusProche($heureArrivee, $heureDepart, $term1, $term2){
 	
 	$distTerminus = $tab_terminus[$term1][$term2];
 	//echo "Arrivee_S1:$heureArrivee <br> Depart_S2:$heureDepart <br> Liaison:$distTerminus<br>";
-
-	$heureFinale = $heureArrivee + $distTerminus;
+	if($distTerminus < 5){
+		$heureFinale = $heureArrivee + $distTerminus + (5-$distTerminus);
+	}else{
+		$heureFinale = $heureArrivee + $distTerminus;
+	}
 	$tempsSup = $heureDepart - $heureFinale;
 
+	if($tempsSup < 5){
+	
+	}
 	if(($tempsSup+5) >= 5 ){ 
 		
 		return $tempsSup;
@@ -172,10 +180,11 @@ function voyageLePlusProche($heureArrivee, $heureDepart, $term1, $term2){
 	}else{
 		return -1;
 	}
-
 }
 
 
+// ===========================================================================================================================	
+// ===========================================================================================================================	
 
 
 ?>

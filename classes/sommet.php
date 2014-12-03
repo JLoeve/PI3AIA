@@ -82,7 +82,10 @@ class Sommet{
 	 * METHODES
 	 *-----------------------------------------------------------*/
 	
-
+	function to_text()
+	{
+		return "l".$this->get_voyage()->get_ligne().":".$this->get_voyage()->get_sens().":v".$this->get_voyage()->get_voyage();
+	}
 	// Nothing
 }
 

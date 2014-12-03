@@ -53,7 +53,7 @@ class Graphe{
 		$tdep2 = $sommet2->get_voyage()->get_tdep();
 		
 		$inter = $hdep2 - $harr1;
-		$liaison = $this->tab_terminus[substr($tarr1,1,1)][substr($tdep2,1,1)];
+		$liaison = $this->tab_terminus[$tarr1][$tdep2];
 		$heure_arrive = $harr1 + $liaison;
 		if($heure_arrive <= $hdep2) // On PEUT y aller à temps
 		{

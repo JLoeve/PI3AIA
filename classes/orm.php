@@ -7,15 +7,17 @@ class ORM{
 	 *-----------------------------------------------------------*/
 
 	private $tab_terminus;
+	private $tab_terminus_distance;
 	private $tab_horaires;
 
 	/*-----------------------------------------------------------
 	 * CONSTRUCTEUR
 	 *-----------------------------------------------------------*/
 
-	function __construct($filename_terminus, $filename_horaires){
+	function __construct($filename_terminus, $filename_horaires, $filename_terminus_distance){
 
 		$this->tab_terminus = $this->lire_terminus($filename_terminus);
+		$this->tab_terminus_distance = $this->lire_terminus_distance($filename_terminus_distance);
 		$this->tab_horaires = $this->lire_horaires($filename_horaires);
 	}
 
@@ -31,6 +33,12 @@ class ORM{
 	function get_tab_horaires(){
 
 		return $this->tab_horaires;
+	}
+	
+	function get_tab_terminus_distance(){
+	
+		return $this->tab_terminus_distance;
+	
 	}
 
 	/*-----------------------------------------------------------
@@ -61,6 +69,32 @@ class ORM{
 			fclose($handle);
 		}
 
+		return $tab;
+	}
+	
+	function lire_terminus_distance($filename){
+
+		$tab = "";
+		$row = 0;
+		if (($handle = fopen($filename, "r")) !== FALSE) { 
+
+			while (($data = fgetcsv($handle, 100, ",")) !== FALSE){
+
+				if($row > 0){
+
+					$num = count($data);
+					for ($c=0; $c < $num; $c++){
+
+						if($c > 0)
+							$tab[$row-1][$c-1] = $data[$c];
+					}
+				}
+
+				$row++;
+			}
+
+			fclose($handle);
+		}
 		return $tab;
 	}
 

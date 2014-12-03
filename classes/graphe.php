@@ -48,10 +48,12 @@ class Graphe{
 	function ajouter_arc($sommet1, $sommet2){
 		// Test if voisin  possible {	
 		$harr1 = $sommet1->get_voyage()->get_harr();
-		$hdep2 = $sommet2->get_voyage()->get_hdep();	
+		$hdep2 = $sommet2->get_voyage()->get_hdep();
+		$tarr1 = $sommet1->get_voyage()->get_tarr();
+		$tdep2 = $sommet2->get_voyage()->get_tdep();
 		
 		$inter = $hdep2 - $harr1;
-		$liaison = $tab_terminus[$harr1][$hdep2];
+		$liaison = $this->tab_terminus[substr($tarr1,1,1)][substr($tdep2,1,1)];
 		$heure_arrive = $harr1 + $liaison;
 		if($heure_arrive <= $hdep2) // On PEUT y aller à temps
 		{

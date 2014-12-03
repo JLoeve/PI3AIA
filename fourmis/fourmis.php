@@ -1,7 +1,8 @@
 <?PHP
 /****
 Finir niveau_trace
-****/
+*/
+
 
 class fourmis
 {
@@ -35,7 +36,7 @@ class fourmis
 		if( $nb_bus < $meilleur_temporaire)
 		{
 			$meilleur_temporaire = $nb_bus
-			echo "<p>  Performance du nouveau graphe: $meilleur_temporaire <br /></p>\n";
+			echo "<p>  Performance du nouveau graphe: $meilleur_temporaire<br /></p>\n";
 		}
 	}
 
@@ -45,32 +46,18 @@ class fourmis
 		
 		$memoire_des_graphes = array('rang', 'numero_du_graphe', 'nb_de_bus_du_graphe', 'valeur_de_phero'); 
 
-		$rang=0; 
-		foreach($graphe as $param) 
+		$i=0; 
+		foreach($memoire_des_graphes as $param) 
 		{ 
-			$rang ++; 
-			array_push($memoire_des_graphes, $rang, $idgraphe, $nbbus, $phero);
+		$array[$param] = $value[$i++]; 
 		} 
 		
+
 		if($parcouru == "False")
 		{
-			$phero=0;
-			else
-			(
-				$phero=($nbbus/0.1);
-				echo "<p> Valeur pheromones: $phero <br /></p>\n";
-				evaporation($phero);
-			)	
+			
 		}
-		
 	}
-	
-	function evaporation($phero)
-	{
-		$phero=(70/100*$phero);
-		return($phero);
-	}
-	
 
 }
 

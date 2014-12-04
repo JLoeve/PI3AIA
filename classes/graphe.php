@@ -41,6 +41,21 @@ class Graphe{
 		return $this->sommets;
 	}
 	
+	function get_nb_sommets_non_parcouru(){
+	
+		$nb_sommets_non_parcouru = 0;
+		
+		foreach( $this->sommets as $s ){
+		
+			if( $s->get_parcouru() == FALSE ){
+				
+				$nb_sommets_non_parcouru++;
+			}
+		}
+		
+		return $nb_sommets_non_parcouru;
+	}
+	
 	/*-----------------------------------------------------------
 	 * METHODS
 	 *-----------------------------------------------------------*/

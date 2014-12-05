@@ -95,6 +95,7 @@ foreach($graphe->get_sommets() as $sommet)
 }
 
 $nb_test = 0;
+$nb_bus_min = 9999;
 while(true)
 {	
 	echo "** Reset **\n"; 
@@ -143,13 +144,13 @@ while(true)
 	//---	// Mode voisin "plus proche"
 		/*	foreach($liste_voisins as $voisin)
 			{
-				if (!$graphe->get_sommet($voisin[0])->get_parcouru())
+				if (!$graphe->get_sommet($voisin[1])->get_parcouru())
 				{
-					if($voisin[1] < $temps_min)
+					if($voisin[0] < $temps_min)
 					{
 						$trouve = true;
-						$id_suivant = $voisin[0];
-						$temps_min = $voisin[1];
+						$id_suivant = $voisin[1];
+						$temps_min = $voisin[0];
 					}
 				}
 			}*/
@@ -158,20 +159,21 @@ while(true)
 			$tab_voisins_libre = Array();
 			foreach($liste_voisins as $voisin)
 			{
-				if(!$graphe->get_sommet($voisin[0])->get_parcouru())
-					$tab_voisins_libre[] = $voisin[0];
-			}			
+				if(!$graphe->get_sommet($voisin[1])->get_parcouru())
+					$tab_voisins_libre[] = Array($voisin[0], $voisin[1]);
+			}	
+			sort($tab_voisins_libre);
 			$nb_voisin_libre = count($tab_voisins_libre);
-			if ($nb_voisin_libre >1)
+			if ($nb_voisin_libre > $val_max = 2)
 			{
-				$random = rand(0, 1);
-				$id_suivant = $tab_voisins_libre[$random];
+				$random = rand(0, $val_max);
+				$id_suivant = $tab_voisins_libre[$random][1];
 				$trouve = true;
 			}
-			else if ($nb_voisin_libre >0)
+			else if ($nb_voisin_libre > 0)
 			{
 				$random = rand(0, $nb_voisin_libre-1);
-				$id_suivant = $tab_voisins_libre[$random];
+				$id_suivant = $tab_voisins_libre[$random][1];
 				$trouve = true;
 			}
 	//---	// Fin modes
@@ -206,19 +208,23 @@ while(true)
 		}
 	}
 	//print_r($bus[0]);
-	echo "Nb bus : ".count($bus)."\n";
-	echo "Distance : $distance_totale\n";
-	echo "Temps : $temps_total\n";
-	$filename = "solutions\\res_".date("Y-m-d_H-i-s")."_".$nb_test."_jloeve.csv";
-
-	//ecriture du fichier de sortie
-	file_put_contents($filename, "#Justine Sabbatier, Adrien Mathaly, Loïc Trichaud, Julien Loève\n", LOCK_EX);
-	file_put_contents($filename, count($bus).",".$temps_total.",".$distance_totale."\n" , FILE_APPEND | LOCK_EX);
-	foreach($bus as $bus_courant)
+	if(count($bus) < $nb_bus_min)
 	{
-		file_put_contents($filename, $bus_courant["txt"]."\n", FILE_APPEND | LOCK_EX);
+		$nb_bus_min = count($bus);
+		echo "Nb bus : ".count($bus)."\n";
+		echo "Distance : $distance_totale\n";
+		echo "Temps : $temps_total\n";
+		$filename = "solutions\\res_".date("Y-m-d_H-i-s")."_".$nb_test."_jloeve.csv";
+
+		//ecriture du fichier de sortie
+		file_put_contents($filename, "#Justine Sabbatier, Adrien Mathaly, Loïc Trichaud, Julien Loève\n", LOCK_EX);
+		file_put_contents($filename, count($bus).",".$temps_total.",".$distance_totale."\n" , FILE_APPEND | LOCK_EX);
+		foreach($bus as $bus_courant)
+		{
+			file_put_contents($filename, $bus_courant["txt"]."\n", FILE_APPEND | LOCK_EX);
+		}
+		file_put_contents("solutions\\liste_solutions_jloeve.csv",count($bus).",".$distance_totale.",".$temps_total.",".$filename."\n", FILE_APPEND);
 	}
-	file_put_contents("solutions\\liste_solutions_jloeve.csv",count($bus).",".$distance_totale.",".$temps_total.",".$filename."\n", FILE_APPEND);
 	$nb_test ++;
 }
 ?>
